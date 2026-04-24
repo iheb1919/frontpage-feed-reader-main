@@ -30,11 +30,11 @@ const Navbar = () => {
             <div className="flex items-center gap-8">
                 <h1 className="text-2xl text-primary font-bold">Frontpage</h1>
 
-                <ul className="md:flex gap-0 hidden  ">
+                <ul className="md:flex gap-2 hidden  ">
                     {navItems.map((item, idx) => (
                         <li key={idx} >
                             <Link
-                                className={`text-text-secondary 
+                                className={`text-text-secondary
                             hover:text-text-primary cursor-pointer 
                             hover:bg-bg-tertiary px-4 py-2 rounded-md ${item.href === pathname ? "text-text-primary bg-bg-tertiary" : ""}`}
                                 href={item.href}>

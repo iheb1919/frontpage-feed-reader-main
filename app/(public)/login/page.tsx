@@ -1,19 +1,13 @@
-
-import { Field, FieldLabel } from "@/components/ui/field";
-import { InputGroup, InputGroupInput, InputGroupAddon } from "@/components/ui/input-group";
-import { signIn } from "@/lib/actions/auth-actions";
-import { Mail, ArrowRight } from "lucide-react"
-import Link from "next/link";
-import PasswordInput from "./Login";
-
+import { LoginForm } from "./LoginForm";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
+import Link from "next/link";
 
 export default async function LoginPage({ searchParams }: { searchParams: { error?: string } }) {
     const session = await auth.api.getSession({ headers: await headers() });
     if (session) {
-        redirect("/home");
+        redirect("/feed");
     }
     return (
         <div className="relative min-h-screen flex items-center justify-center overflow-hidden bg-background">
@@ -29,30 +23,7 @@ export default async function LoginPage({ searchParams }: { searchParams: { erro
                     <p className="text-muted-foreground text-sm font-medium">Enter your credentials to access your account</p>
                 </div>
 
-                <form className="space-y-6" action={signIn} >
-                    <Field>
-                        <FieldLabel htmlFor="email">Your email address</FieldLabel>
-                        <InputGroup className="h-12! rounded-xl bg-background/50 border-border/50 focus-visible:ring-primary focus-visible:bg-background transition-all shadow-sm">
-                            <InputGroupInput id="email"
-                                name="email" placeholder="name@example.com"
-                                autoComplete="email"
-                                defaultValue="ihebmejri14@gmail.com"
-                                required
-                            />
-                            <InputGroupAddon className="pl-3 flex items-center justify-center" >
-                                <Mail className="h-5! w-5! shrink-0" />
-                            </InputGroupAddon>
-                        </InputGroup>
-                    </Field>
-
-                    <PasswordInput />
-                    <button
-                        type="submit"
-                        className="group w-full flex items-center justify-center gap-2 h-12 mt-4 rounded-xl bg-primary text-primary-foreground font-bold transition-all hover:bg-primary/90 hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-primary/25"
-                    >
-                        Sign In <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                    </button>
-                </form>
+                <LoginForm initialError={searchParams.error} />
 
                 <p className="mt-8 text-center text-sm font-medium text-muted-foreground">
                     Don't have an account?{' '}
@@ -60,11 +31,6 @@ export default async function LoginPage({ searchParams }: { searchParams: { erro
                         Sign up
                     </Link>
                 </p>
-                {searchParams.error && (
-                    <p className="text-red-500 text-sm text-center">
-                        {searchParams.error}
-                    </p>
-                )}
             </div>
         </div>
     )

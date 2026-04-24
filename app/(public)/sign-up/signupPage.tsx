@@ -6,21 +6,52 @@ import { Mail, ArrowRight, Lock, Eye, EyeOff, User } from "lucide-react";
 import Link from "next/link";
 import { signUp } from "@/lib/actions/auth-actions";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
+import { FieldError } from "@/components/ui/field";
+
+const signupSchema = z.object({
+    name: z.string().min(2, "Name must be at least 2 characters"),
+    email: z.string().email("Invalid email address"),
+    password: z.string().min(6, "Password must be at least 6 characters"),
+});
+
+type SignupValues = z.infer<typeof signupSchema>;
 
 const SignUpPage = () => {
     const [showPassword, setShowPassword] = useState(false);
-    const handleSubmit = async (event: any) => {
-        event.preventDefault();
-        const formData = new FormData(event.currentTarget);
+    const [serverError, setServerError] = useState<string | null>(null);
+    const router = useRouter();
+
+    const form = useForm<SignupValues>({
+        resolver: zodResolver(signupSchema),
+        defaultValues: {
+            name: "",
+            email: "",
+            password: "",
+        },
+    });
+
+    const onSubmit = async (values: SignupValues) => {
+        setServerError(null);
         try {
+            const formData = new FormData();
+            formData.append("name", values.name);
+            formData.append("email", values.email);
+            formData.append("password", values.password);
+
             const result = await signUp(formData);
             if (result?.error) {
-                console.error("Signup error:", result.error);
-                alert(result.error);
+                setServerError(result.error);
+            } else if (result?.success) {
+                router.push("/feed");
+                router.refresh();
             }
         } catch (error: any) {
-            console.error("Signup exception:", error);
-            alert(error?.message ?? "Something went wrong");
+            setServerError(error?.message ?? "Something went wrong");
         }
     };
     return (
@@ -37,37 +68,51 @@ const SignUpPage = () => {
                     <p className="text-muted-foreground text-sm font-medium">Enter your credentials to access your account</p>
                 </div>
 
-                <form className="space-y-6" onSubmit={handleSubmit}>
-
-                    <Field>
+                <form className="space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
+                    <Field data-invalid={!!form.formState.errors.name}>
                         <FieldLabel htmlFor="name">Your name</FieldLabel>
                         <InputGroup className="h-12! rounded-xl bg-background/50 border-border/50 focus-visible:ring-primary focus-visible:bg-background transition-all shadow-sm">
-                            <InputGroupInput id="name" name="name" placeholder="Full Name" autoComplete="off" required />
+                            <InputGroupInput 
+                                {...form.register("name")}
+                                aria-invalid={!!form.formState.errors.name}
+                                id="name" 
+                                placeholder="Full Name" 
+                                autoComplete="off" 
+                            />
                             <InputGroupAddon className="pl-3 flex items-center justify-center" >
                                 <User className="h-5! w-5! shrink-0" />
                             </InputGroupAddon>
                         </InputGroup>
+                        <FieldError>{form.formState.errors.name?.message}</FieldError>
                     </Field>
-                    <Field>
+
+                    <Field data-invalid={!!form.formState.errors.email}>
                         <FieldLabel htmlFor="email">Your email address</FieldLabel>
                         <InputGroup className="h-12! rounded-xl bg-background/50 border-border/50 focus-visible:ring-primary focus-visible:bg-background transition-all shadow-sm">
-                            <InputGroupInput id="email" name="email" placeholder="name@example.com"
+                            <InputGroupInput 
+                                {...form.register("email")}
+                                aria-invalid={!!form.formState.errors.email}
+                                id="email" 
+                                placeholder="name@example.com"
                                 autoComplete="email"
-                                required
                             />
                             <InputGroupAddon className="pl-3 flex items-center justify-center" >
                                 <Mail className="h-5! w-5! shrink-0" />
                             </InputGroupAddon>
                         </InputGroup>
+                        <FieldError>{form.formState.errors.email?.message}</FieldError>
                     </Field>
-                    <Field>
+
+                    <Field data-invalid={!!form.formState.errors.password}>
                         <FieldLabel htmlFor="password">Your password</FieldLabel>
                         <InputGroup className="h-12! rounded-xl bg-background/50 border-border/50 focus-visible:ring-primary focus-visible:bg-background transition-all shadow-sm">
-                            <InputGroupInput id="password" name="password"
+                            <InputGroupInput 
+                                {...form.register("password")}
+                                aria-invalid={!!form.formState.errors.password}
+                                id="password"
                                 type={showPassword ? "text" : "password"}
                                 placeholder="••••••••"
                                 autoComplete="new-password"
-                                required
                             />
                             <InputGroupAddon className="pl-3 flex items-center justify-center" >
                                 <Lock className="h-5! w-5! shrink-0" />
@@ -76,13 +121,22 @@ const SignUpPage = () => {
                                 {showPassword ? <EyeOff className="h-5! w-5! shrink-0" /> : <Eye className="h-5! w-5! shrink-0" />}
                             </InputGroupAddon>
                         </InputGroup>
+                        <FieldError>{form.formState.errors.password?.message}</FieldError>
                     </Field>
+
+                    {serverError && (
+                        <p className="text-destructive text-sm font-medium text-center bg-destructive/10 py-2 rounded-lg">
+                            {serverError}
+                        </p>
+                    )}
 
                     <button
                         type="submit"
-                        className="group w-full flex items-center justify-center gap-2 h-12 mt-4 rounded-xl bg-primary text-primary-foreground font-bold transition-all hover:bg-primary/90 hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-primary/25"
+                        disabled={form.formState.isSubmitting}
+                        className="group w-full flex items-center justify-center gap-2 h-12 mt-4 rounded-xl bg-primary text-primary-foreground font-bold transition-all hover:bg-primary/90 hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-primary/25 disabled:opacity-50 disabled:hover:scale-100"
                     >
-                        Sign Up <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                        {form.formState.isSubmitting ? "Signing Up..." : "Sign Up"} 
+                        <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                     </button>
                 </form>
 

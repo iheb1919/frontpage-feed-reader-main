@@ -49,19 +49,14 @@ npm install
 Create a `.env` file in the root directory and add the following variables:
 
 ```env
-# Database (Neon/PostgreSQL)
+# Database (Neon/PostgreSQL/etc)
 DATABASE_URL="postgresql://user:password@host/dbname?sslmode=require"
 
 # Better-Auth Configuration
 BETTER_AUTH_SECRET="your_random_secret_here"
 BETTER_AUTH_URL="http://localhost:3000"
 
-# Social Authentication (Optional)
-GITHUB_CLIENT_ID="your_github_client_id"
-GITHUB_CLIENT_SECRET="your_github_client_secret"
-GOOGLE_CLIENT_ID="your_google_client_id"
-GOOGLE_CLIENT_SECRET="your_google_client_secret"
-```
+
 
 ### 4. Database Initialization
 

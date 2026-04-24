@@ -13,7 +13,7 @@ import {
     SidebarMenuSubItem,
     SidebarRail,
 } from "@/components/ui/sidebar"
-import { Bookmark, ChevronDown, User2, LayoutGrid } from 'lucide-react'
+import { Bookmark, ChevronDown, User2, LayoutGrid, LogOut } from 'lucide-react'
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible"
 import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip'
 import React from 'react'
@@ -24,6 +24,8 @@ import { auth } from '@/lib/auth'
 import { headers } from 'next/headers'
 import Link from 'next/link'
 import { SidebarNavLink } from "./SidebarNavLink"
+import { signOut } from "@/lib/actions/auth-actions"
+import { Button } from "../ui/button"
 
 const SideBar = async () => {
     const feeds = await getFeedsAction();
@@ -34,7 +36,10 @@ const SideBar = async () => {
         acc[category].push(feed);
         return acc;
     }, {} as Record<string, typeof feeds>);
-
+    const handleSignOut = async () => {
+        await signOut();
+        //router.push('/signin')
+    }
     return (
         <Sidebar variant='sidebar' collapsible="icon" className="border-border">
             <SidebarContent>
@@ -50,13 +55,13 @@ const SideBar = async () => {
                         <CollapsibleContent>
                             <SidebarGroupContent>
                                 <SidebarMenu>
-                                    <SidebarMenuItem >
+                                    <SidebarMenuItem className="my-1">
                                         <SidebarNavLink href="/feed?tab=all">
                                             <LayoutGrid />
                                             All Items
                                         </SidebarNavLink>
                                     </SidebarMenuItem>
-                                    <SidebarMenuItem >
+                                    <SidebarMenuItem className="my-1">
                                         <SidebarNavLink href="/feed?tab=saved">
                                             <Bookmark />
                                             Saved
@@ -139,9 +144,11 @@ const SideBar = async () => {
             <SidebarFooter className='border-t'>
                 <SidebarMenu>
                     <SidebarMenuItem>
-                        <SidebarMenuButton>
-                            <User2 /> {session?.user?.name || "User"}
-                        </SidebarMenuButton>
+                        <form action={signOut}>
+                            <Button className="w-full" variant='outline' >
+                                <LogOut /> SignOut
+                            </Button>
+                        </form>
                     </SidebarMenuItem>
                 </SidebarMenu>
             </SidebarFooter>

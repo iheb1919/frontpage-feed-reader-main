@@ -77,9 +77,34 @@ const FeedItem = ({ item, displayType }: { item: any, displayType: boolean }) =>
                 <p className="text-sm text-muted-foreground line-clamp-2 h-10 overflow-hidden">
                     {item.description}
                 </p>
-                <p className="text-sm text-muted-foreground line-clamp-2 h-10 hover:underline hover:underline-offset-1"> More details</p>
+                <p className="text-sm w-fit text-muted-foreground line-clamp-2 h-10 hover:underline hover:underline-offset-1"> More details</p>
             </div>
         </Link>
     )
 }
+import { Skeleton } from "../ui/skeleton"
+
+export const FeedItemSkeleton = ({ displayType }: { displayType: boolean }) => {
+    return (
+        <div className={"px-5 py-4 flex transition-all bg-card "
+            + (displayType ? "gap-2 rounded-md shadow-sm" : " gap-0 border-t")}>
+            <div className="flex flex-col gap-1 w-full overflow-hidden">
+                <div className="flex gap-2 items-center w-full justify-between">
+                    <div className="w-[150px] flex items-center gap-2">
+                        <Skeleton className="h-6 w-6 rounded-full" />
+                        <Skeleton className="h-4 w-20" />
+                    </div>
+                    <Skeleton className="h-4 w-24" />
+                </div>
+                <Skeleton className="h-6 w-3/4 mt-1" />
+                <div className="space-y-2 mt-2">
+                    <Skeleton className="h-4 w-full" />
+                    <Skeleton className="h-4 w-5/6" />
+                </div>
+                <Skeleton className="h-4 w-20 mt-2" />
+            </div>
+        </div>
+    )
+}
+
 export default FeedItem
