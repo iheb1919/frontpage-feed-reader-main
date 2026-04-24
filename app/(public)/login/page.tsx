@@ -22,7 +22,11 @@ export default async function LoginPage({ searchParams }: { searchParams: { erro
                     <h1 className="text-4xl font-extrabold tracking-tight text-foreground mb-3">Welcome Back</h1>
                     <p className="text-muted-foreground text-sm font-medium">Enter your credentials to access your account</p>
                 </div>
-
+                <div className="flex flex-col text-sm mb-4 border p-2 rounded-md">
+                    <h2>Demo credentials:</h2>
+                    <p className="font-semibold">Email: <span className="font-normal">test@test.com</span> </p>
+                    <p className="font-semibold">PassWord: <span className="font-normal">123456789</span>  </p>
+                </div>
                 <LoginForm initialError={searchParams.error} />
 
                 <p className="mt-8 text-center text-sm font-medium text-muted-foreground">

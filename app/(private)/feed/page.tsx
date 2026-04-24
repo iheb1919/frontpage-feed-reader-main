@@ -7,11 +7,9 @@ import HomePage from "./HomePage";
 
 const Page = async ({ searchParams }: { searchParams: Promise<{ feedId?: string, tab?: string }> }) => {
     const { feedId, tab } = await searchParams;
-    // console.log({ searchParams })
     let items = [];
     let title = "All Items";
     const isSavedMode = tab === "saved";
-    console.log(isSavedMode)
     const session = await auth.api.getSession({ headers: await headers() });
     if (!session) return null;
 
@@ -44,7 +42,6 @@ const Page = async ({ searchParams }: { searchParams: Promise<{ feedId?: string,
             take: 50,
         });
     }
-    console.log("items", items)
     return (
         <HomeN>
             <HomePage items={items} title={title} feedId={feedId} />
