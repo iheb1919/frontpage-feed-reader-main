@@ -30,7 +30,7 @@ const Navbar = () => {
         <nav className="h-16 z-50 shrink-0 fixed left-0 top-0 bg-bg-primary border-b w-full flex items-center px-4 ">
             <div className="flex items-center gap-4 flex-1">
 
-                <h1 className="text-xl text-primary font-bold hidden sm:block">Frontpage</h1>
+                <h1 className="text-xl text-primary font-bold hidden sm:block">RSSAggregator</h1>
                 <SidebarTrigger className="md:hidden" />
                 <ul className="flex gap-1">
                     {navItems.map((item, idx) => (

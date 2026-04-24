@@ -17,9 +17,9 @@ const loginSchema = z.object({
 
 type LoginValues = z.infer<typeof loginSchema>
 
-export function LoginForm({ initialError }: { initialError?: string }) {
+export function LoginForm() {
     const [showPassword, setShowPassword] = useState(false)
-    const [serverError, setServerError] = useState<string | null>(initialError || null)
+    const [serverError, setServerError] = useState<string | null>(null)
     const router = useRouter()
 
     const form = useForm<LoginValues>({
@@ -36,7 +36,7 @@ export function LoginForm({ initialError }: { initialError?: string }) {
             const formData = new FormData()
             formData.append("email", values.email)
             formData.append("password", values.password)
-            
+
             const result = await signIn(formData)
             if (result?.error) {
                 setServerError(result.error)
@@ -54,10 +54,10 @@ export function LoginForm({ initialError }: { initialError?: string }) {
             <Field data-invalid={!!form.formState.errors.email}>
                 <FieldLabel htmlFor="email">Your email address</FieldLabel>
                 <InputGroup className="h-12! rounded-xl bg-background/50 border-border/50 focus-visible:ring-primary focus-visible:bg-background transition-all shadow-sm">
-                    <InputGroupInput 
+                    <InputGroupInput
                         {...form.register("email")}
                         aria-invalid={!!form.formState.errors.email}
-                        id="email" 
+                        id="email"
                         placeholder="name@example.com"
                         autoComplete="email"
                     />
@@ -71,7 +71,7 @@ export function LoginForm({ initialError }: { initialError?: string }) {
             <Field data-invalid={!!form.formState.errors.password}>
                 <FieldLabel htmlFor="password">Your password</FieldLabel>
                 <InputGroup className="h-12! rounded-xl bg-background/50 border-border/50 focus-visible:ring-primary focus-visible:bg-background transition-all shadow-sm">
-                    <InputGroupInput 
+                    <InputGroupInput
                         {...form.register("password")}
                         aria-invalid={!!form.formState.errors.password}
                         id="password"
@@ -100,7 +100,7 @@ export function LoginForm({ initialError }: { initialError?: string }) {
                 disabled={form.formState.isSubmitting}
                 className="group w-full flex items-center justify-center gap-2 h-12 mt-4 rounded-xl bg-primary text-primary-foreground font-bold transition-all hover:bg-primary/90 hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-primary/25 disabled:opacity-50 disabled:hover:scale-100"
             >
-                {form.formState.isSubmitting ? "Signing In..." : "Sign In"} 
+                {form.formState.isSubmitting ? "Signing In..." : "Sign In"}
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </button>
         </form>

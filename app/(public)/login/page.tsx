@@ -27,7 +27,7 @@ export default async function LoginPage({ searchParams }: { searchParams: { erro
                     <p className="font-semibold">Email: <span className="font-normal">test@test.com</span> </p>
                     <p className="font-semibold">PassWord: <span className="font-normal">123456789</span>  </p>
                 </div>
-                <LoginForm initialError={searchParams.error} />
+                <LoginForm />
 
                 <p className="mt-8 text-center text-sm font-medium text-muted-foreground">
                     Don't have an account?{' '}
