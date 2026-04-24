@@ -14,9 +14,13 @@ const SignUpPage = () => {
         const formData = new FormData(event.currentTarget);
         try {
             const result = await signUp(formData);
-            console.log(result);
-        } catch (error) {
-            console.log(error);
+            if (result?.error) {
+                console.error("Signup error:", result.error);
+                alert(result.error);
+            }
+        } catch (error: any) {
+            console.error("Signup exception:", error);
+            alert(error?.message ?? "Something went wrong");
         }
     };
     return (

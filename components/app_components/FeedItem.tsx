@@ -82,5 +82,4 @@ const FeedItem = ({ item, displayType }: { item: any, displayType: boolean }) =>
         </Link>
     )
 }
-
 export default FeedItem

@@ -21,15 +21,19 @@ export const signUp = async (formData: FormData) => {
 export const signIn = async (formData: FormData) => {
     const email = formData.get("email") as string;
     const password = formData.get("password") as string;
+
     try {
         await auth.api.signInEmail({
             body: { email, password }
         });
     } catch (error: any) {
-        return { error: error?.message ?? "Invalid email or password" };
+        const message = error?.message ?? "Invalid email or password";
+
+        redirect(`/login?error=${encodeURIComponent(message)}`); // ✅
     }
+
     redirect("/home");
-}
+};
 
 export const signOut = async () => {
     await auth.api.signOut({ headers: await headers() });

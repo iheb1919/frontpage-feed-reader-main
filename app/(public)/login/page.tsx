@@ -10,7 +10,7 @@ import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
-export default async function LoginPage() {
+export default async function LoginPage({ searchParams }: { searchParams: { error?: string } }) {
     const session = await auth.api.getSession({ headers: await headers() });
     if (session) {
         redirect("/home");
@@ -60,6 +60,11 @@ export default async function LoginPage() {
                         Sign up
                     </Link>
                 </p>
+                {searchParams.error && (
+                    <p className="text-red-500 text-sm text-center">
+                        {searchParams.error}
+                    </p>
+                )}
             </div>
         </div>
     )
