@@ -1,36 +1,93 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 📡 FrontPage Feed Reader
 
-## Getting Started
+FrontPage is a modern, full-stack RSS Feed Reader application designed for a seamless content consumption experience. Built with the latest web technologies, it offers a fast, responsive, and intuitive interface for managing your daily information flow.
 
-First, run the development server:
+![Next.js](https://img.shields.io/badge/Next.js-15-black?style=for-the-badge&logo=next.js)
+![Prisma](https://img.shields.io/badge/Prisma-ORM-2D3748?style=for-the-badge&logo=prisma)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4-38B2AC?style=for-the-badge&logo=tailwind-css)
+![Better-Auth](https://img.shields.io/badge/Better--Auth-Security-blue?style=for-the-badge)
+
+## ✨ Features
+
+- **🚀 Real-time Feed Fetching**: Stay updated with the latest content from your favorite RSS sources.
+- **📁 Smart Categorization**: Organize your subscriptions into custom categories (Tech, News, Design, etc.).
+- **🔖 Save for Later**: Bookmark important articles to your "Saved" collection with a single click.
+- **🔍 Discover Hub**: Explore curated feed recommendations and expand your horizons.
+- **🔐 Secure Authentication**: Robust login system featuring:
+  - Email & Password
+  - Social Login (GitHub & Google) via Better-Auth.
+- **🌓 Dynamic Theme**: Beautifully designed interface with full Dark and Light mode support.
+- **📱 Fully Responsive**: Optimized for desktop, tablet, and mobile viewing.
+
+## 🛠️ Tech Stack
+
+- **Framework**: [Next.js 15 (App Router)](https://nextjs.org/)
+- **Database**: [PostgreSQL (Neon)](https://neon.tech/)
+- **ORM**: [Prisma](https://www.prisma.io/)
+- **Authentication**: [Better-Auth](https://better-auth.com/)
+- **Styling**: [Tailwind CSS](https://tailwindcss.com/)
+- **Components**: [Shadcn UI](https://ui.shadcn.com/)
+- **Icons**: [Lucide React](https://lucide.dev/)
+
+## 🚀 Getting Started
+
+### 1. Clone the Repository
+
+```bash
+git clone git@github.com:iheb1919/frontpage-feed-reader-main.git
+cd frontpage-feed-reader-main
+```
+
+### 2. Install Dependencies
+
+```bash
+npm install
+```
+
+### 3. Environment Setup
+
+Create a `.env` file in the root directory and add the following variables:
+
+```env
+# Database (Neon/PostgreSQL)
+DATABASE_URL="postgresql://user:password@host/dbname?sslmode=require"
+
+# Better-Auth Configuration
+BETTER_AUTH_SECRET="your_random_secret_here"
+BETTER_AUTH_URL="http://localhost:3000"
+
+# Social Authentication (Optional)
+GITHUB_CLIENT_ID="your_github_client_id"
+GITHUB_CLIENT_SECRET="your_github_client_secret"
+GOOGLE_CLIENT_ID="your_google_client_id"
+GOOGLE_CLIENT_SECRET="your_google_client_secret"
+```
+
+### 4. Database Initialization
+
+Sync your database schema and generate the Prisma client:
+
+```bash
+npx prisma generate
+npx prisma db push
+```
+
+### 5. Run the Application
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The app will be available at [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 📂 Project Structure
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `app/`: Next.js App Router (Pages and Layouts)
+- `components/`: Reusable UI and App-specific components
+- `lib/`: Core logic, Auth configuration, and Prisma client
+- `prisma/`: Database schema and migrations
+- `hooks/`: Custom React hooks for state and interactions
 
-## Learn More
+## 📄 License
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+This project is open-source and available under the MIT License.
