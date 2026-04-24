@@ -1,8 +1,12 @@
 import sampleFeeds from "@/data/sample-feeds.json";
 import DiscoverFeedCard from "./DiscoverFeedCard";
 import HomeN from "../feed/homeN";
+import { getFeedsAction } from "@/lib/actions/feed-actions";
 
-export default function DiscoverPage() {
+export default async function DiscoverPage() {
+    const userFeeds = await getFeedsAction();
+    const userFeedUrls = new Set(userFeeds.map(f => f.url?.replace(/\/$/, "")));
+
     return (
         <HomeN>
             <div className="p-6 w-full h-full overflow-y-auto">
@@ -18,9 +22,17 @@ export default function DiscoverPage() {
                                 <h2 className="text-xl font-semibold">{category.name}</h2>
                             </div>
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                                {category.feeds.map((feed) => (
-                                    <DiscoverFeedCard key={feed.feedUrl} feed={feed} categoryName={category.name} />
-                                ))}
+                                {category.feeds.map((feed) => {
+                                    const isInitiallySubscribed = userFeedUrls.has(feed.feedUrl.replace(/\/$/, ""));
+                                    return (
+                                        <DiscoverFeedCard 
+                                            key={feed.feedUrl} 
+                                            feed={feed} 
+                                            categoryName={category.name} 
+                                            isInitiallySubscribed={isInitiallySubscribed}
+                                        />
+                                    );
+                                })}
                             </div>
                         </div>
                     ))}

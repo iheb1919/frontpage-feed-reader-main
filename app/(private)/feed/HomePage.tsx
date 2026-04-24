@@ -61,79 +61,76 @@ const HomePage = ({ items, title, feedId }: HomePageProps) => {
         }
     }
     return (
-        <div className="grid grid-cols-1 w-full pb-4">
-            <div className="w-full p-4  flex items-center justify-between">
-                <h1 className="text-lg font-bold">{title}
-                    <span className="text-muted-foreground text-xs ml-2 font-normal">{unreadCount} unread</span>
+        <div className="grid grid-cols-1 w-full pb-4 max-w-full overflow-hidden">
+            <div className="w-full p-4 flex flex-col md:flex-row md:items-center justify-between gap-4 border-b md:border-b-0">
+                <h1 className="text-xl font-bold flex items-baseline gap-2">
+                    {title}
+                    <span className="text-muted-foreground text-xs font-normal">{unreadCount} unread</span>
                 </h1>
-                <div className="flex items-center gap-2">
-                    <ButtonGroup >
-                        <Button size="icon" variant={displayType ? "default" : "outline"} className="p-2" onClick={() => setDisplayType(true)}>
-                            <LayoutGrid size={18} />
+                <div className="flex flex-wrap items-center gap-2">
+                    <ButtonGroup className="hidden sm:flex">
+                        <Button size="icon" variant={displayType ? "default" : "outline"} className="h-8 w-8" onClick={() => setDisplayType(true)}>
+                            <LayoutGrid size={16} />
                         </Button>
-                        <Button size="icon" variant={!displayType ? "default" : "outline"} className="p-2" onClick={() => setDisplayType(false)}>
-                            <Rows3 size={18} />
-                        </Button>
-                    </ButtonGroup>
-                    <Button
-                        variant="outline"
-                        size="sm"
-                        className="gap-2"
-                        onClick={handleNewest}
-                        disabled={isNewest}
-                    >
-                        {isNewest ? <Loader2 size={14} className="animate-spin" /> : <RefreshCw size={14} />}
-                        Newest
-                    </Button>
-                    <ButtonGroup >
-                        <Button
-                            variant="outline"
-                            size="sm"
-                            className="gap-2"
-                            onClick={() => applyFilter("all")}
-                        >
-                            Display all
-                        </Button>
-                        <Button
-                            variant="outline"
-                            size="sm"
-                            className="gap-2"
-                            onClick={() => applyFilter("read")}
-                        >
-                            Display Read Only
-                        </Button>
-                        <Button
-                            variant="outline"
-                            size="sm"
-                            className="gap-2"
-                            onClick={() => applyFilter("unread")}
-                        >
-                            Display Unread Only
+                        <Button size="icon" variant={!displayType ? "default" : "outline"} className="h-8 w-8" onClick={() => setDisplayType(false)}>
+                            <Rows3 size={16} />
                         </Button>
                     </ButtonGroup>
-                    {feedId && (
-                        <Button
-                            variant="outline"
-                            size="sm"
-                            className="gap-2"
-                            onClick={handleRefresh}
-                            disabled={isRefreshing}
-                        >
-                            {isRefreshing ? <Loader2 size={14} className="animate-spin" /> : <RefreshCw size={14} />}
-                            Refresh
-                        </Button>
-                    )}
+                    
+                    <div className="flex items-center gap-2 flex-wrap">
+                        <ButtonGroup className="flex-wrap">
+                            <Button
+                                variant={filter === "all" ? "secondary" : "outline"}
+                                size="sm"
+                                className="h-8 text-xs px-2"
+                                onClick={() => setFilter("all")}
+                            >
+                                All
+                            </Button>
+                            <Button
+                                variant={filter === "unread" ? "secondary" : "outline"}
+                                size="sm"
+                                className="h-8 text-xs px-2"
+                                onClick={() => setFilter("unread")}
+                            >
+                                Unread
+                            </Button>
+                            <Button
+                                variant={filter === "read" ? "secondary" : "outline"}
+                                size="sm"
+                                className="h-8 text-xs px-2"
+                                onClick={() => setFilter("read")}
+                            >
+                                Read
+                            </Button>
+                        </ButtonGroup>
 
-                    <Button
-                        variant="outline"
-                        size="sm"
-                        className="gap-2"
-                        onClick={handleMarkAllRead}
-                        disabled={isMarking || unreadCount === 0}
-                    >
-                        {isMarking ? <Loader2 size={14} className="animate-spin" /> : <CheckCheck size={14} />}
-                        Mark all read
-                    </Button>
+                        <div className="flex items-center gap-2">
+                            {feedId && (
+                                <Button
+                                    variant="outline"
+                                    size="sm"
+                                    className="h-8 gap-2 text-xs"
+                                    onClick={handleRefresh}
+                                    disabled={isRefreshing}
+                                >
+                                    {isRefreshing ? <Loader2 size={12} className="animate-spin" /> : <RefreshCw size={12} />}
+                                    <span className="hidden sm:inline">Refresh</span>
+                                </Button>
+                            )}
+
+                            <Button
+                                variant="outline"
+                                size="sm"
+                                className="h-8 gap-2 text-xs"
+                                onClick={handleMarkAllRead}
+                                disabled={isMarking || unreadCount === 0}
+                            >
+                                {isMarking ? <Loader2 size={12} className="animate-spin" /> : <CheckCheck size={12} />}
+                                <span className="hidden sm:inline">Mark all read</span>
+                            </Button>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div className={"w-full p-4 grid " + (!displayType ? "grid-cols-1 gap-0 " : "gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4")}>

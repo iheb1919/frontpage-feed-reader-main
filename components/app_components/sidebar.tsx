@@ -12,6 +12,7 @@ import {
     SidebarMenuSubButton,
     SidebarMenuSubItem,
     SidebarRail,
+    SidebarTrigger,
 } from "@/components/ui/sidebar"
 import { Bookmark, ChevronDown, User2, LayoutGrid, LogOut } from 'lucide-react'
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible"
@@ -43,6 +44,7 @@ const SideBar = async () => {
     return (
         <Sidebar variant='sidebar' collapsible="icon" className="border-border">
             <SidebarContent>
+                <SidebarTrigger className="md:hidden ml-auto mt-2" />
                 <Collapsible defaultOpen className="group/collapsible" >
                     {/* FIRST GROUUUP */}
                     <SidebarGroup className='border-b'>

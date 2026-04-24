@@ -1,7 +1,7 @@
 "use client"
 import Link from 'next/link'
 import { useSearchParams, usePathname } from 'next/navigation'
-import { SidebarMenuButton, SidebarMenuSubButton } from '@/components/ui/sidebar'
+import { SidebarMenuButton, SidebarMenuSubButton, useSidebar } from '@/components/ui/sidebar'
 import { ReactNode } from 'react'
 
 export function SidebarNavLink({
@@ -21,6 +21,7 @@ export function SidebarNavLink({
 }) {
     const searchParams = useSearchParams()
     const pathname = usePathname()
+    const { setOpenMobile, isMobile } = useSidebar()
 
     let isActive = false
 
@@ -52,11 +53,17 @@ export function SidebarNavLink({
             isActive = pathname === href.split("?")[0]
         }
     }
+    
+    const handleClick = () => {
+        if (isMobile) {
+            setOpenMobile(false)
+        }
+    }
 
     if (isSub) {
         return (
             <SidebarMenuSubButton asChild isActive={isActive}>
-                <Link href={href} className={className}>
+                <Link href={href} className={className} onClick={handleClick}>
                     {children}
                 </Link>
             </SidebarMenuSubButton>
@@ -64,7 +71,7 @@ export function SidebarNavLink({
     }
     return (
         <SidebarMenuButton asChild isActive={isActive}>
-            <Link className={`flex items-center gap-2 ${className || ''}`} href={href}>
+            <Link className={`flex items-center gap-2 ${className || ''}`} href={href} onClick={handleClick}>
                 {children}
             </Link>
         </SidebarMenuButton>

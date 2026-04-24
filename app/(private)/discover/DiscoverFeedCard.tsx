@@ -5,9 +5,17 @@ import { Plus, Loader2, Check } from "lucide-react"
 import { addFeedAction } from "@/lib/actions/feed-actions"
 import { useIsNotification } from "@/hooks/notificationContext"
 
-export default function DiscoverFeedCard({ feed, categoryName }: { feed: any, categoryName: string }) {
+export default function DiscoverFeedCard({ 
+    feed, 
+    categoryName, 
+    isInitiallySubscribed 
+}: { 
+    feed: any, 
+    categoryName: string, 
+    isInitiallySubscribed: boolean 
+}) {
     const [isPending, startTransition] = useTransition()
-    const [isSubscribed, setIsSubscribed] = useState(false)
+    const [isSubscribed, setIsSubscribed] = useState(isInitiallySubscribed)
     const { notify } = useIsNotification()
 
     const handleSubscribe = () => {
@@ -48,7 +56,7 @@ export default function DiscoverFeedCard({ feed, categoryName }: { feed: any, ca
                 >
                     {isPending ? <Loader2 size={14} className="animate-spin" /> : 
                      isSubscribed ? <Check size={14} /> : <Plus size={14} />}
-                    {isSubscribed ? "Subscribed" : "Subscribe"}
+                    {isSubscribed ? "Already Subscribed" : "Subscribe"}
                 </Button>
             </div>
         </div>

@@ -50,16 +50,19 @@ export default async function RootLayout({
                     <NextTopLoader showSpinner={false} color="var(--primary)" />
 
                     <TooltipProvider>
-                        <Navbar />
-                        <div className="flex flex-1">
-                            <SidebarProvider>
-                                <SideBar />
-                                <main className="w-full flex-1 ">
+                        <SidebarProvider>
+                            <div className="flex flex-col h-screen  flex-1">
+                                <Navbar />
+                                <main className=" flex-1 ">
+                                    <SideBar />
                                     {/* <SidebarTrigger /> */}
-                                    {children}
+                                    <div className="mt-16 mainContainer">
+                                        {children}
+
+                                    </div>
                                 </main>
-                            </SidebarProvider>
-                        </div>
+                            </div>
+                        </SidebarProvider>
                     </TooltipProvider>
 
                 </ThemeProvider></body>
