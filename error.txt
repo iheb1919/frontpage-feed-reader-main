@@ -1,0 +1,27 @@
+[#better-auth]: Couldn't read your auth config. PrismaClientInitializationError: `PrismaClient` needs to be constructed with a non-empty, valid `PrismaClientOptions`:
+
+```
+new PrismaClient({
+  ...
+})
+```
+
+or
+
+```
+constructor() {
+  super({ ... });
+}
+```
+          
+    at new t (/home/user/personal/frontend mentor/feed_reader/frontpage-feed-reader-main/node_modules/@prisma/client/runtime/client.js:70:1527)
+    at /home/user/personal/frontend mentor/feed_reader/frontpage-feed-reader-main/lib/auth.ts:6:16
+    at async Function.import (/home/user/.npm/_npx/167ca1f116d365e6/node_modules/jiti/dist/jiti.cjs:1:158301)
+    at async resolveConfig (file:///home/user/.npm/_npx/167ca1f116d365e6/node_modules/c12/dist/index.mjs:318:20)
+    at async loadConfig (file:///home/user/.npm/_npx/167ca1f116d365e6/node_modules/c12/dist/index.mjs:147:22)
+    at async getConfig (file:///home/user/.npm/_npx/167ca1f116d365e6/node_modules/@better-auth/cli/dist/index.mjs:398:23)
+    at async Command.generateAction (file:///home/user/.npm/_npx/167ca1f116d365e6/node_modules/@better-auth/cli/dist/index.mjs:453:17) {
+  clientVersion: '7.8.0',
+  errorCode: undefined,
+  retryable: undefined
+}
